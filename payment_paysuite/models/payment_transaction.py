@@ -61,11 +61,16 @@ class PaymentTransaction(models.Model):
         return payload
 
     def _paysuite_get_or_create_contact_id(self):
-        """Procura o contacto no PaySuite pelo email; se não existir, cria-o.
+        """Find the PaySuite contact by email, or create it if it does not exist.
 
-        Nunca bloqueia o pagamento: se falhar, o pagamento segue sem contact_id.
+        Only runs when the provider has "Sync Customers as PaySuite Contacts" enabled.
+        Never blocks the payment: on failure, the payment proceeds without contact_id.
         """
         self.ensure_one()
+        # Opt-in: no personal data is sent to PaySuite unless the provider enables it.
+        if not self.provider_id.paysuite_sync_contacts:
+            return None
+
         email = (self.partner_email or "").strip().lower()[:100]
         phone = self._paysuite_normalize_phone(self.partner_phone)
         name = (self.partner_name or "").strip()[:100] or email.split("@")[0]
@@ -74,7 +79,7 @@ class PaymentTransaction(models.Model):
             return None
 
         try:
-            # 1. Procurar por email
+            # 1. Look up by email
             if email:
                 response = self._send_api_request(
                     "GET", "/contacts", params={"email": email, "limit": 100}
@@ -83,7 +88,7 @@ class PaymentTransaction(models.Model):
                     if (contact.get("email") or "").strip().lower() == email:
                         return contact["id"]
 
-            # 2. Não existe: criar
+            # 2. Not found: create it
             contact_payload = {"name": name}
             if email:
                 contact_payload["email"] = email
@@ -99,7 +104,7 @@ class PaymentTransaction(models.Model):
 
     @staticmethod
     def _paysuite_normalize_phone(phone):
-        """Converte para E.164, assumindo Moçambique (+258) quando não há prefixo."""
+        """Convert to E.164, assuming Mozambique (+258) when there is no prefix."""
         value = re.sub(r"[^\d+]", "", phone or "")
         if not value:
             return ""

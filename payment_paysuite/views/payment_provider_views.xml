@@ -9,6 +9,12 @@
                 <group invisible="code != 'paysuite'">
                     <field name="paysuite_api_token" password="True"/>
                     <field name="paysuite_webhook_secret" password="True"/>
+                    <field name="paysuite_sync_contacts"/>
+                    <div colspan="2" class="text-muted"
+                         invisible="not paysuite_sync_contacts">
+                        The customer's name, email and phone number will be sent to
+                        PaySuite to create or match a contact for each payment.
+                    </div>
                 </group>
             </group>
         </field>

@@ -20,6 +20,13 @@ class PaymentProvider(models.Model):
         copy=False,
         groups='base.group_system',
     )
+    paysuite_sync_contacts = fields.Boolean(
+        string="Sync Customers as PaySuite Contacts",
+        help="When enabled, the customer's name, email and phone number are sent to "
+             "PaySuite to find or create a contact linked to each payment. "
+             "Disabled by default: no personal data is sent unless you enable it.",
+        default=False,
+    )
     paysuite_webhook_secret = fields.Char(
         string="Webhook Secret",
         help="Segredo usado para validar a assinatura X-Signature dos webhooks.",

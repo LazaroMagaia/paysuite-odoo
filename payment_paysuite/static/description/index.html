@@ -1,0 +1,114 @@
+<section class="pt-5 pb-3">
+    <div class="container text-center">
+        <h1 class="display-4">PaySuite Payments</h1>
+        <p class="lead text-muted">
+            Accept M-Pesa, e-Mola, mKesh and card payments in Odoo through the PaySuite checkout.
+        </p>
+    </div>
+</section>
+
+<section class="pb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Overview</h3>
+                <p>
+                    This module adds PaySuite as a payment provider in Odoo. Customers are
+                    redirected to the PaySuite checkout, choose their payment method there, and
+                    return to Odoo once the payment is complete. Transactions are updated
+                    automatically from PaySuite notifications.
+                </p>
+                <p>
+                    It works with any Odoo flow that uses payment providers, such as eCommerce
+                    checkout, invoice payments and payment links.
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h3>Features</h3>
+                <ul>
+                    <li>Redirect checkout through the PaySuite hosted payment page.</li>
+                    <li>Payment status is confirmed directly with the PaySuite API, not only from the data received in the browser.</li>
+                    <li>Webhook endpoint that validates the <code>X-Signature</code> header (HMAC-SHA256) using your webhook secret.</li>
+                    <li>Optional sync of customers as PaySuite contacts: the customer is looked up by email and created if not found.</li>
+                    <li>Phone numbers are converted to international format (Mozambique +258 by default).</li>
+                    <li>Payment references are cleaned to the characters PaySuite accepts.</li>
+                    <li>Supports the MZN currency only.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pb-4">
+    <div class="container">
+        <div class="alert alert-warning">
+            <h4 class="alert-heading">External service required</h4>
+            <p class="mb-0">
+                This module needs a PaySuite <strong>company</strong> account with API access.
+                Personal PaySuite accounts do not include API access. Payments are processed by
+                PaySuite, not by this module or by Odoo.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="pb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Configuration</h3>
+                <ol>
+                    <li>Generate an API token in your PaySuite merchant dashboard (Settings, API Access).</li>
+                    <li>In Odoo, open Accounting, Configuration, Payment Providers and select PaySuite.</li>
+                    <li>Enter the API token and the webhook secret.</li>
+                    <li>Make sure the <code>web.base.url</code> system parameter is the public HTTPS address of your Odoo, so PaySuite can reach the webhook.</li>
+                    <li>Set the provider to Enabled (or Test Mode).</li>
+                </ol>
+            </div>
+            <div class="col-md-6">
+                <h3>How it works</h3>
+                <ol>
+                    <li>The customer selects PaySuite at checkout.</li>
+                    <li>Odoo creates a payment request in PaySuite and redirects the customer.</li>
+                    <li>The customer pays on the PaySuite page.</li>
+                    <li>PaySuite sends the customer back to Odoo and notifies your Odoo by webhook.</li>
+                    <li>Odoo verifies the signature, checks the payment status with the PaySuite API and updates the transaction.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pb-4">
+    <div class="container">
+        <h3>Data privacy</h3>
+        <p>
+            The module communicates with the PaySuite API to create and check payments. For each
+            payment it sends the amount, a payment reference, a short description and the return
+            and webhook addresses of your Odoo.
+        </p>
+        <p>
+            <strong>Customer contact sync is optional and disabled by default.</strong> If you
+            enable "Sync Customers as PaySuite Contacts" on the provider, the customer's name,
+            email address and phone number are also sent to PaySuite, to find an existing contact
+            by email or to create a new one. If the option is disabled, none of this personal data
+            is sent. The module does not collect usage statistics and does not send data to any
+            other service.
+        </p>
+        <p>
+            Please make sure that your own privacy policy covers the processing of customer data
+            by PaySuite.
+        </p>
+    </div>
+</section>
+
+<section class="pb-5">
+    <div class="container">
+        <h3>Requirements</h3>
+        <ul>
+            <li>Odoo 20 (Community or Enterprise), on-premise or Odoo.sh. Custom modules cannot be installed on Odoo Online (SaaS).</li>
+            <li>A PaySuite company account with an API token and a webhook secret.</li>
+            <li>A publicly reachable HTTPS address for your Odoo, for webhook delivery.</li>
+        </ul>
+    </div>
+</section>

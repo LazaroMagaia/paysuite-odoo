@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="payment_method_paysuite" model="payment.method">
+        <field name="name">PaySuite</field>
+        <field name="code">paysuite</field>
+        <field name="sequence">10</field>
+        <field name="provider_id" ref="payment_paysuite.payment_provider_paysuite"/>
+        <field name="support_tokenization">False</field>
+    </record>
+
+</odoo>

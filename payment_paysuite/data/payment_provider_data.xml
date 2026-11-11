@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="payment_provider_paysuite" model="payment.provider">
+        <field name="name">PaySuite</field>
+        <field name="code">paysuite</field>
+        <field name="module_id" ref="base.module_payment_paysuite"/>
+        <field name="redirect_form_view_id" ref="payment.generic_redirect_form"/>
+        <field name="allow_tokenization">False</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,4 @@
+# O PaySuite só suporta MZN.
+SUPPORTED_CURRENCIES = ['MZN']
+
+DEFAULT_PAYMENT_METHOD_CODES = {'paysuite'}

@@ -113,4 +113,5 @@ payment_paysuite/
 
 Documentação da API: https://paysuite.tech/docs
 
-Reporta problemas ou sugestões abrindo uma issue no repositório do módulo.
+Reporta problemas ou sugestões abrindo uma issue no repositório do módulo.# paysuite-odoo
+# paysuite-odoo
